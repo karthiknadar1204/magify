@@ -13,7 +13,7 @@ export default function CreatePage() {
           What should this photo become?
         </h1>
         <p className="mt-4 text-base leading-7 text-muted-foreground">
-          Upload one photo, choose the outcome, and leave the complicated prompt to Magify.
+          Upload one photo, choose the outcome, and leave the complicated prompt to Magnify.
         </p>
       </div>
 

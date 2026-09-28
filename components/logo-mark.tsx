@@ -5,7 +5,7 @@ export function LogoMark({ className }: { className?: string }) {
     <svg
       viewBox="0 0 40 40"
       role="img"
-      aria-label="Magify"
+      aria-label="Magnify"
       className={cn("size-10 shrink-0", className)}
     >
       <rect width="40" height="40" rx="13" fill="var(--primary)" />

@@ -47,7 +47,7 @@ export function MarketingHeader() {
                   "h-10 rounded-full px-4 shadow-sm",
                 )}
               >
-                Try Magify
+                Try Magnify
               </button>
             </SignUpButton>
           </Show>

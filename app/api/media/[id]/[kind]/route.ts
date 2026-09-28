@@ -36,7 +36,7 @@ export async function GET(_: Request, context: MediaRouteContext) {
     result: {
       key: generation.resultKey,
       type: generation.resultMimeType,
-      disposition: 'attachment; filename="magify-result.webp"',
+      disposition: 'attachment; filename="magnify-result.webp"',
     },
   }[kind];
 

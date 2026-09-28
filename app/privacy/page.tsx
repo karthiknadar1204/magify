@@ -10,7 +10,7 @@ export default function PrivacyPage() {
       updated="28 September 2026"
       sections={[
         {
-          title: "What Magify stores",
+          title: "What Magnify stores",
           paragraphs: [
             "We store your account details, the editing choices you make, and the original and resulting images needed to provide your private history. We also keep basic operational records required to diagnose failures and protect the service.",
             "Your images are associated with your signed-in account and are served through authenticated routes rather than public links.",
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
         {
           title: "Private beta",
           paragraphs: [
-            "Magify is currently a private beta. We may change infrastructure and retention rules as we improve reliability, and we will update this page when the treatment of your data materially changes.",
+            "Magnify is currently a private beta. We may change infrastructure and retention rules as we improve reliability, and we will update this page when the treatment of your data materially changes.",
           ],
         },
       ]}

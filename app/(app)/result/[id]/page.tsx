@@ -59,7 +59,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
             <DeleteGenerationButton id={generation.id} />
             <a
               href={`/api/media/${generation.id}/result`}
-              download="magify-result.webp"
+              download="magnify-result.webp"
               className={cn(buttonVariants({ size: "lg" }), "h-11 rounded-full px-4")}
             >
               <Download /> Download WebP
@@ -75,7 +75,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
               beforeSrc={`/api/media/${generation.id}/original`}
               afterSrc={`/api/media/${generation.id}/preview`}
               beforeAlt="Original uploaded photo"
-              afterAlt="Magify edited result"
+              afterAlt="Magnify edited result"
               className="min-h-[28rem] rounded-[1.45rem] sm:min-h-[38rem]"
             />
             <p className="px-3 pb-1 pt-3 text-center text-xs text-muted-foreground">

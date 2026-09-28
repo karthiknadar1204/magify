@@ -97,7 +97,7 @@ export default function Home() {
                       "h-13 rounded-full px-6 text-base shadow-lg shadow-primary/15",
                     )}
                   >
-                    Magify your first photo <ArrowRight />
+                    Magnify your first photo <ArrowRight />
                   </button>
                 </SignUpButton>
               </Show>
@@ -109,7 +109,7 @@ export default function Home() {
                     "h-13 rounded-full px-6 text-base shadow-lg shadow-primary/15",
                   )}
                 >
-                  Magify a photo <ArrowRight />
+                  Magnify a photo <ArrowRight />
                 </Link>
               </Show>
               <a
@@ -203,14 +203,14 @@ export default function Home() {
                 From camera roll to ready-to-use.
               </h2>
               <p className="mt-5 text-lg leading-8 text-muted-foreground">
-                Magify asks only for the decisions that materially improve your result. The complicated prompt work happens quietly behind the scenes.
+                Magnify asks only for the decisions that materially improve your result. The complicated prompt work happens quietly behind the scenes.
               </p>
             </div>
 
             <ol className="grid gap-4 sm:grid-cols-3">
               {[
                 ["01", "Upload", "Drop in a JPG, PNG, or WebP. We prepare it without stretching or enlarging it."],
-                ["02", "Direct", "Pick a tool, visual style, and how confidently you want Magify to edit."],
+                ["02", "Direct", "Pick a tool, visual style, and how confidently you want Magnify to edit."],
                 ["03", "Compare", "Inspect the before and after, then download the clean WebP result."],
               ].map(([number, title, description]) => (
                 <li key={number} className="surface-grid rounded-3xl border border-foreground/8 bg-card/65 p-6">

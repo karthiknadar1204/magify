@@ -403,7 +403,7 @@ export function ImageEditor() {
             <div className="flex items-center gap-3">
               <LoaderCircle className="size-4 animate-spin text-primary" />
               <div>
-                <p className="text-sm font-semibold">Magifying your photo…</p>
+                <p className="text-sm font-semibold">Magnifying your photo…</p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
                   Keep this page open. A detailed edit can take about a minute.
                 </p>
@@ -425,7 +425,7 @@ export function ImageEditor() {
             </>
           ) : (
             <>
-              <WandSparkles /> Magify this photo
+              <WandSparkles /> Magnify this photo
             </>
           )}
         </Button>

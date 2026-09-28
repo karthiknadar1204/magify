@@ -1,6 +1,6 @@
-# Magify
+# Magnify
 
-Magify is a focused AI photo editor for natural enhancement, professional headshots, product photography, old-photo restoration, and precise custom edits.
+Magnify is a focused AI photo editor for natural enhancement, professional headshots, product photography, old-photo restoration, and precise custom edits.
 
 The current private beta is free and does not include a payment gateway or paywall. Billing will be added only after the complete product flow has been tested with real users.
 

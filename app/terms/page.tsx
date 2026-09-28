@@ -10,15 +10,15 @@ export default function TermsPage() {
       updated="28 September 2026"
       sections={[
         {
-          title: "Using Magify",
+          title: "Using Magnify",
           paragraphs: [
-            "You may use Magify to edit images you own or are authorised to use. Do not upload illegal content, intimate imagery without consent, abusive material, or anything that infringes another person's privacy or intellectual-property rights.",
+            "You may use Magnify to edit images you own or are authorised to use. Do not upload illegal content, intimate imagery without consent, abusive material, or anything that infringes another person's privacy or intellectual-property rights.",
           ],
         },
         {
           title: "AI-generated results",
           paragraphs: [
-            "Image generation can be unpredictable. Review every result before publishing or relying on it, especially where accuracy, identity, products, or historical detail matters. Magify does not guarantee that a result will be error-free or suitable for a particular purpose.",
+            "Image generation can be unpredictable. Review every result before publishing or relying on it, especially where accuracy, identity, products, or historical detail matters. Magnify does not guarantee that a result will be error-free or suitable for a particular purpose.",
           ],
         },
         {

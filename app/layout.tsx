@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Magify — Make every photo feel finished",
-    template: "%s — Magify",
+    default: "Magnify — Make every photo feel finished",
+    template: "%s — Magnify",
   },
   description:
     "Enhance portraits, products, and old photographs with precise AI-powered editing.",

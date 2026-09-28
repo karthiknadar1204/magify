@@ -76,7 +76,7 @@ function getPublicError(error: unknown) {
       return {
         status: 429,
         code: "rate_limited",
-        message: "Magify is busy right now. Wait a moment and try again.",
+        message: "Magnify is busy right now. Wait a moment and try again.",
       };
     }
   }

@@ -69,7 +69,7 @@ export async function editImageWithOpenAI(
 
   const response = await getOpenAIClient().images.edit({
     model: process.env.OPENAI_IMAGE_MODEL || "gpt-image-2.5-sunburst",
-    image: await toFile(inputImage, "magify-input.webp", {
+    image: await toFile(inputImage, "magnify-input.webp", {
       type: "image/webp",
     }),
     prompt: buildEditPrompt(input),

@@ -51,13 +51,13 @@ export default async function DashboardPage() {
             Your first before-and-after belongs here.
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-            Choose a focused editing tool and Magify will handle the prompt engineering for you.
+            Choose a focused editing tool and Magnify will handle the prompt engineering for you.
           </p>
           <Link
             href="/create"
             className={cn(buttonVariants({ size: "lg" }), "mt-7 h-12 rounded-full px-5")}
           >
-            Magify a photo <ArrowRight />
+            Magnify a photo <ArrowRight />
           </Link>
         </section>
       )}
