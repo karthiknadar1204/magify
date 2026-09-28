@@ -61,7 +61,7 @@ export function BillingActions({
         <Button
           size="lg"
           variant="outline"
-          className="h-12 rounded-full px-5"
+          className="h-12 rounded-full border-white/10 bg-background px-5 text-foreground hover:bg-background/90 hover:text-foreground"
           disabled={loadingAction !== null}
           onClick={() => openBillingRoute("portal")}
         >
