@@ -59,13 +59,7 @@ Required for production:
 
 ### Dodo Payments setup
 
-Create a monthly subscription product, then set its product ID and a test-mode API key in `.env.local`. Register the deployed webhook URL as:
-
-```text
-https://your-domain.com/api/webhooks/dodo
-```
-
-Subscribe that endpoint to the supported `subscription.*` events and copy its signing key into `DODO_PAYMENTS_WEBHOOK_KEY`. Keep `DODO_PAYMENTS_ENVIRONMENT=test_mode` until checkout, renewal, cancellation, and failed-payment events have all been verified. The webhook is idempotent: active and renewal events reset the account to 30 credits, while status changes preserve its current balance.
+See [`docs/dodo-payments.md`](./docs/dodo-payments.md) for the complete ngrok setup, exact event filters, test-mode configuration, and the webhook URL and environment values to use in production.
 
 ## Useful commands
 
