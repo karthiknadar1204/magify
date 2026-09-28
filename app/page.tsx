@@ -233,7 +233,7 @@ export default function Home() {
                 Your photos are the input, never the product.
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
-                Originals and results stay private to your account. Delete any edit whenever you want; automatic cleanup will remove old media too.
+                Originals and results stay private to your account. Delete any edit whenever you want—you stay in control of what remains.
               </p>
             </div>
 

@@ -1,5 +1,4 @@
 import { SignIn } from "@clerk/nextjs";
-import Link from "next/link";
 
 import { Brand } from "@/components/brand";
 
@@ -23,9 +22,7 @@ export default function SignInPage() {
         <div className="absolute -left-24 top-1/3 size-72 rounded-full bg-accent/20 blur-3xl" />
       </section>
       <main className="flex min-h-screen flex-col items-center justify-center px-5 py-10">
-        <Link href="/" className="mb-8 lg:hidden">
-          <Brand />
-        </Link>
+        <Brand className="mb-8 lg:hidden" />
         <SignIn
           routing="path"
           path="/sign-in"

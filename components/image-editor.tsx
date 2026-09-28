@@ -250,6 +250,9 @@ export function ImageEditor() {
             type="file"
             accept="image/jpeg,image/png,image/webp"
             className="sr-only"
+            onClick={(event) => {
+              event.currentTarget.value = "";
+            }}
             onChange={(event) => acceptFile(event.target.files?.[0])}
           />
         </div>
