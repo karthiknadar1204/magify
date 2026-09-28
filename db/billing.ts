@@ -82,9 +82,9 @@ export async function processSubscriptionBillingEvent(
       .set({ userId: user.id })
       .where(eq(billingEvents.id, event.webhookId));
 
-    if (event.resetCredits) {
-      const creditDelta = nextCredits - user.credits;
+    const creditDelta = nextCredits - user.credits;
 
+    if (event.resetCredits && creditDelta !== 0) {
       await tx.insert(creditTransactions).values({
         userId: user.id,
         amount: creditDelta,

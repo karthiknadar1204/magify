@@ -1,7 +1,7 @@
 import "server-only";
 
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+import { Pool } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
 
 import * as schema from "./schema";
 
@@ -11,6 +11,15 @@ if (!databaseUrl) {
   throw new Error("DATABASE_URL is not configured.");
 }
 
-const sql = neon(databaseUrl);
+const globalForDatabase = globalThis as unknown as {
+  magnifyNeonPool?: Pool;
+};
 
-export const db = drizzle({ client: sql, schema });
+const pool =
+  globalForDatabase.magnifyNeonPool ?? new Pool({ connectionString: databaseUrl });
+
+if (process.env.NODE_ENV !== "production") {
+  globalForDatabase.magnifyNeonPool = pool;
+}
+
+export const db = drizzle({ client: pool, schema });
