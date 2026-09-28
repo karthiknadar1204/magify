@@ -23,6 +23,11 @@ export const metadata: Metadata = {
   },
   description:
     "Enhance portraits, products, and old photographs with precise AI-powered editing.",
+  icons: {
+    icon: "/logo-mark.svg",
+    shortcut: "/logo-mark.svg",
+    apple: "/logo-mark.svg",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
