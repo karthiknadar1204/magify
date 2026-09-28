@@ -1,8 +1,11 @@
 import { ImageEditor } from "@/components/image-editor";
+import { getAuthenticatedAppUser } from "@/lib/auth";
 
 export const metadata = { title: "New edit" };
 
-export default function CreatePage() {
+export default async function CreatePage() {
+  const user = await getAuthenticatedAppUser();
+
   return (
     <div className="mx-auto max-w-7xl px-5 py-9 sm:px-8 sm:py-12">
       <div className="max-w-3xl">
@@ -17,7 +20,7 @@ export default function CreatePage() {
         </p>
       </div>
 
-      <ImageEditor />
+      <ImageEditor credits={user?.credits ?? 0} />
     </div>
   );
 }

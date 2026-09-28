@@ -23,15 +23,21 @@ export default function PrivacyPage() {
           ],
         },
         {
+          title: "Payments",
+          paragraphs: [
+            "Paid subscriptions and the customer billing portal are provided by Dodo Payments. Dodo receives the account, billing, and payment information needed to complete your purchase and manage renewals. Magnify stores Dodo customer and subscription identifiers and the resulting subscription status, but does not store your full card number.",
+          ],
+        },
+        {
           title: "Control and deletion",
           paragraphs: [
             "You can delete an edit from its result page. This removes it from your history and requests deletion of its stored original, preview, and result files. Limited backup or security records may remain temporarily where technically necessary.",
           ],
         },
         {
-          title: "Private beta",
+          title: "Changes to this policy",
           paragraphs: [
-            "Magnify is currently a private beta. We may change infrastructure and retention rules as we improve reliability, and we will update this page when the treatment of your data materially changes.",
+            "We may change infrastructure and retention rules as we improve reliability, and we will update this page when the treatment of your data materially changes.",
           ],
         },
       ]}

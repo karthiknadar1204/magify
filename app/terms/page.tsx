@@ -5,7 +5,7 @@ export const metadata = { title: "Terms" };
 export default function TermsPage() {
   return (
     <LegalPage
-      eyebrow="Private beta"
+      eyebrow="The essentials"
       title="Terms of use"
       updated="28 September 2026"
       sections={[
@@ -22,9 +22,16 @@ export default function TermsPage() {
           ],
         },
         {
+          title: "Credits and subscriptions",
+          paragraphs: [
+            "New accounts may receive complimentary credits. Magnify Pro is a recurring monthly subscription processed by Dodo Payments. The price, renewal period, and included credits are shown before checkout. You can manage or cancel your subscription through the billing portal, and cancellation takes effect according to the date shown there.",
+            "One credit is used only after a requested edit finishes successfully. A failed generation is automatically refunded. Monthly credits reset when a new paid billing period begins and do not roll over unless Magnify explicitly says otherwise.",
+          ],
+        },
+        {
           title: "Availability",
           paragraphs: [
-            "The beta is provided as available and may be changed, rate-limited, or temporarily suspended while we test it. There is currently no paid plan and no card is required.",
+            "Magnify is provided as available and may be changed, rate-limited, or temporarily suspended for maintenance, security, or provider outages. We may change plan features or pricing prospectively, with the current terms displayed before purchase or renewal where required.",
           ],
         },
         {

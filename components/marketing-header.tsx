@@ -23,6 +23,9 @@ export function MarketingHeader() {
           <a className="transition-colors hover:text-foreground" href="#how-it-works">
             How it works
           </a>
+          <a className="transition-colors hover:text-foreground" href="#pricing">
+            Pricing
+          </a>
           <a className="transition-colors hover:text-foreground" href="#privacy">
             Privacy
           </a>

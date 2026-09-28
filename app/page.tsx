@@ -61,7 +61,7 @@ export default function Home() {
           <div className="relative z-10">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-card/70 px-3 py-1.5 text-xs font-medium shadow-sm backdrop-blur">
               <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,.12)]" />
-              Private beta is open · no card required
+              Start with 2 free edits · no card required
             </div>
 
             <h1 className="text-balance max-w-2xl text-[clamp(3.35rem,7vw,6.4rem)] font-semibold leading-[0.9] tracking-[-0.065em]">
@@ -220,6 +220,82 @@ export default function Home() {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        <section id="pricing" className="border-y border-foreground/8 bg-card/55 py-22 backdrop-blur-sm">
+          <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+            <div>
+              <p className="text-sm font-semibold tracking-[0.15em] text-primary uppercase">
+                Simple pricing
+              </p>
+              <h2 className="text-balance mt-4 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
+                Try the whole studio. Upgrade when it earns the space.
+              </h2>
+              <p className="mt-5 max-w-xl text-lg leading-8 text-muted-foreground">
+                Every account starts with two successful edits. Failed attempts are automatically refunded, so a technical issue never spends your credit.
+              </p>
+            </div>
+
+            <article className="relative overflow-hidden rounded-[2rem] bg-foreground p-7 text-background shadow-2xl sm:p-10">
+              <div className="absolute -right-16 -top-20 size-64 rounded-full bg-primary/40 blur-3xl" />
+              <div className="relative">
+                <div className="flex items-start justify-between gap-6">
+                  <div>
+                    <p className="text-sm font-semibold text-white/60">Magnify Pro</p>
+                    <p className="mt-2 text-5xl font-semibold tracking-[-0.055em]">
+                      $9.99
+                      <span className="ml-1 text-base font-normal tracking-normal text-white/50">/ month</span>
+                    </p>
+                  </div>
+                  <span className="grid size-12 place-items-center rounded-2xl bg-white/10">
+                    <Sparkles className="size-5 text-accent" />
+                  </span>
+                </div>
+
+                <ul className="mt-8 grid gap-3 text-sm text-white/75 sm:grid-cols-2">
+                  {[
+                    "30 successful edits each month",
+                    "Every editing tool included",
+                    "Private originals and results",
+                    "Cancel anytime in one click",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <Check className="mt-0.5 size-4 shrink-0 text-accent" /> {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-9">
+                  <Show when="signed-out">
+                    <SignUpButton mode="modal">
+                      <button
+                        className={cn(
+                          buttonVariants({ variant: "secondary", size: "lg" }),
+                          "h-13 rounded-full bg-background px-6 text-base text-foreground hover:bg-background/90",
+                        )}
+                      >
+                        Start with 2 free edits <ArrowRight />
+                      </button>
+                    </SignUpButton>
+                  </Show>
+                  <Show when="signed-in">
+                    <Link
+                      href="/billing"
+                      className={cn(
+                        buttonVariants({ variant: "secondary", size: "lg" }),
+                        "h-13 rounded-full bg-background px-6 text-base text-foreground hover:bg-background/90",
+                      )}
+                    >
+                      View your plan <ArrowRight />
+                    </Link>
+                  </Show>
+                </div>
+                <p className="mt-4 text-xs text-white/45">
+                  Secure checkout by Dodo Payments. No trial or hidden usage fees.
+                </p>
+              </div>
+            </article>
           </div>
         </section>
 

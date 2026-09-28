@@ -9,13 +9,13 @@ export default function SignUpPage() {
         <Brand className="relative z-10 text-background" />
         <div className="relative z-10 my-auto max-w-lg">
           <p className="text-sm font-semibold tracking-[0.16em] text-accent uppercase">
-            Private beta
+            Two free edits
           </p>
           <h1 className="mt-5 text-6xl font-semibold leading-[.96] tracking-[-0.06em]">
             Your first edit is minutes away.
           </h1>
           <p className="mt-6 text-lg leading-8 text-white/60">
-            Sign up free, choose a photo, and see the entire editing flow without entering a card.
+            Sign up free, choose a photo, and make two complete edits without entering a card.
           </p>
         </div>
         <div className="absolute -bottom-40 -right-32 size-[34rem] rounded-full bg-primary/70 blur-3xl" />

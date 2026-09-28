@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Box,
@@ -56,9 +57,10 @@ const ratioLabels: Record<AspectRatio, string> = {
 type GenerationResponse = {
   generation?: { id: string };
   error?: string;
+  code?: string;
 };
 
-export function ImageEditor() {
+export function ImageEditor({ credits }: { credits: number }) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -148,6 +150,12 @@ export function ImageEditor() {
       const payload = (await response.json()) as GenerationResponse;
 
       if (!response.ok || !payload.generation) {
+        if (payload.code === "credits_exhausted") {
+          toast.error(payload.error || "You’re out of image credits.");
+          router.push("/billing");
+          return;
+        }
+
         throw new Error(payload.error || "The edit could not be completed.");
       }
 
@@ -413,24 +421,35 @@ export function ImageEditor() {
           </div>
         ) : null}
 
-        <Button
-          type="submit"
-          size="lg"
-          disabled={isSubmitting}
-          className="mt-8 h-13 w-full rounded-full text-base shadow-lg shadow-primary/15"
-        >
-          {isSubmitting ? (
-            <>
-              <LoaderCircle className="animate-spin" /> Working…
-            </>
-          ) : (
-            <>
-              <WandSparkles /> Magnify this photo
-            </>
-          )}
-        </Button>
+        {credits > 0 ? (
+          <Button
+            type="submit"
+            size="lg"
+            disabled={isSubmitting}
+            className="mt-8 h-13 w-full rounded-full text-base shadow-lg shadow-primary/15"
+          >
+            {isSubmitting ? (
+              <>
+                <LoaderCircle className="animate-spin" /> Working…
+              </>
+            ) : (
+              <>
+                <WandSparkles /> Magnify this photo
+              </>
+            )}
+          </Button>
+        ) : (
+          <Link
+            href="/billing"
+            className={cn(
+              "mt-8 inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-primary px-5 text-base font-medium text-primary-foreground shadow-lg shadow-primary/15 transition hover:bg-primary/80",
+            )}
+          >
+            <WandSparkles className="size-4" /> Get more credits
+          </Link>
+        )}
         <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
-          <ImagePlus className="size-3.5" /> Free during private beta · no card required
+          <ImagePlus className="size-3.5" /> 1 credit per successful edit · {credits} remaining
         </p>
       </section>
     </form>

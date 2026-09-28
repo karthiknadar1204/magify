@@ -36,6 +36,23 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
+      {user && user.credits === 0 ? (
+        <section className="mt-8 flex flex-col gap-4 rounded-3xl border border-primary/15 bg-primary/7 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-semibold">You’ve used your available credits.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Magnify Pro includes 30 successful edits every month for $9.99.
+            </p>
+          </div>
+          <Link
+            href="/billing"
+            className={cn(buttonVariants(), "shrink-0 rounded-full px-5")}
+          >
+            View Magnify Pro <ArrowRight />
+          </Link>
+        </section>
+      ) : null}
+
       {generations.length > 0 ? (
         <section className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {generations.map((generation) => (

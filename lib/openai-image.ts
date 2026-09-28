@@ -61,7 +61,7 @@ export async function editImageWithOpenAI(
   input: GenerationInput,
 ) {
   if (
-    process.env.MAGIFY_MOCK_AI === "true" &&
+    (process.env.MAGNIFY_MOCK_AI ?? process.env.MAGIFY_MOCK_AI) === "true" &&
     process.env.NODE_ENV !== "production"
   ) {
     return createLocalTestResult(inputImage, input);
