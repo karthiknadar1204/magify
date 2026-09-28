@@ -4,6 +4,7 @@ import { eq, or } from "drizzle-orm";
 
 import { db } from "./index";
 import { billingEvents, creditTransactions, users } from "./schema";
+import { getSubscriptionBillingPeriodKey } from "@/lib/dodo-webhook";
 
 export const MONTHLY_PRO_CREDITS = 30;
 
@@ -62,7 +63,33 @@ export async function processSubscriptionBillingEvent(
       throw new Error("No Magnify user matches this Dodo subscription event.");
     }
 
-    const nextCredits = event.resetCredits ? MONTHLY_PRO_CREDITS : user.credits;
+    const currentPeriodEnd = parseDate(event.currentPeriodEnd);
+    let nextCredits = user.credits;
+
+    if (event.resetCredits) {
+      const billingPeriodKey = getSubscriptionBillingPeriodKey(
+        event.subscriptionId,
+        event.currentPeriodEnd,
+      );
+      const creditDelta = MONTHLY_PRO_CREDITS - user.credits;
+      const [recordedReset] = await tx
+        .insert(creditTransactions)
+        .values({
+          userId: user.id,
+          amount: creditDelta,
+          kind: "subscription_reset",
+          externalEventId: event.webhookId,
+          billingPeriodKey,
+        })
+        .onConflictDoNothing({
+          target: creditTransactions.billingPeriodKey,
+        })
+        .returning({ id: creditTransactions.id });
+
+      if (recordedReset) {
+        nextCredits = MONTHLY_PRO_CREDITS;
+      }
+    }
 
     await tx
       .update(users)
@@ -72,7 +99,7 @@ export async function processSubscriptionBillingEvent(
         dodoCustomerId: event.customerId,
         dodoSubscriptionId: event.subscriptionId,
         dodoProductId: event.productId,
-        subscriptionCurrentPeriodEnd: parseDate(event.currentPeriodEnd),
+        subscriptionCurrentPeriodEnd: currentPeriodEnd,
         updatedAt: new Date(),
       })
       .where(eq(users.id, user.id));
@@ -81,17 +108,6 @@ export async function processSubscriptionBillingEvent(
       .update(billingEvents)
       .set({ userId: user.id })
       .where(eq(billingEvents.id, event.webhookId));
-
-    const creditDelta = nextCredits - user.credits;
-
-    if (event.resetCredits && creditDelta !== 0) {
-      await tx.insert(creditTransactions).values({
-        userId: user.id,
-        amount: creditDelta,
-        kind: "subscription_reset",
-        externalEventId: event.webhookId,
-      });
-    }
 
     return {
       outcome: "processed" as const,

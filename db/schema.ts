@@ -110,6 +110,7 @@ export const creditTransactions = pgTable(
     amount: integer("amount").notNull(),
     kind: text("kind").notNull(),
     externalEventId: text("external_event_id"),
+    billingPeriodKey: text("billing_period_key"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
@@ -125,6 +126,9 @@ export const creditTransactions = pgTable(
     ),
     uniqueIndex("credit_transactions_external_event_idx").on(
       table.externalEventId,
+    ),
+    uniqueIndex("credit_transactions_billing_period_idx").on(
+      table.billingPeriodKey,
     ),
   ],
 );

@@ -19,3 +19,20 @@ export function isSupportedSubscriptionEvent(type: string) {
 export function shouldResetSubscriptionCredits(type: string) {
   return type === "subscription.active" || type === "subscription.renewed";
 }
+
+export function getSubscriptionBillingPeriodKey(
+  subscriptionId: string,
+  currentPeriodEnd: string | null,
+) {
+  if (!currentPeriodEnd) {
+    return `${subscriptionId}:unknown-period`;
+  }
+
+  const periodEnd = new Date(currentPeriodEnd);
+
+  if (Number.isNaN(periodEnd.getTime())) {
+    return `${subscriptionId}:unknown-period`;
+  }
+
+  return `${subscriptionId}:${periodEnd.toISOString()}`;
+}

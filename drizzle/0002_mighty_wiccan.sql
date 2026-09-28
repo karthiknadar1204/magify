@@ -1,0 +1,2 @@
+ALTER TABLE "credit_transactions" ADD COLUMN "billing_period_key" text;--> statement-breakpoint
+CREATE UNIQUE INDEX "credit_transactions_billing_period_idx" ON "credit_transactions" USING btree ("billing_period_key");
