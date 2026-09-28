@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Magify
 
-## Getting Started
+Magify is a focused AI photo editor for natural enhancement, professional headshots, product photography, old-photo restoration, and precise custom edits.
 
-First, run the development server:
+The current private beta is free and does not include a payment gateway or paywall. Billing will be added only after the complete product flow has been tested with real users.
+
+## Stack
+
+- Next.js 16 App Router, React 19, TypeScript, and Tailwind CSS
+- Clerk authentication with custom sign-in and sign-up pages
+- Drizzle ORM with Neon Postgres
+- OpenAI Image API for edits
+- Private Cloudflare R2 media storage in production
+- Local private media storage and an explicit mock-AI mode for development
+- Vitest for image validation and prompt-preset tests
+
+## Local setup
+
+Install dependencies and copy the environment template:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Fill in the required values in `.env.local`, then apply the database migrations and start the app:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run db:migrate
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+### Test without AI credits or R2
 
-To learn more about Next.js, take a look at the following resources:
+Set this only in local development:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+MAGIFY_MOCK_AI=true
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Mock mode runs the complete upload, database, processing, result, download, history, and deletion workflow locally. Its output is visibly labelled `LOCAL TEST RESULT`. Mock mode is disabled in production even if the variable is accidentally set.
 
-## Deploy on Vercel
+When R2 credentials are absent, development media is stored under the ignored `.local-media` directory. Production intentionally fails closed until R2 is configured.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [`.env.example`](./.env.example) for the complete list. Never commit `.env.local` or real service credentials.
+
+Required for production:
+
+- Clerk publishable and secret keys
+- Neon `DATABASE_URL`
+- OpenAI API key with image-generation credits
+- Cloudflare R2 account ID, access key, secret, and bucket name
+
+## Useful commands
+
+```bash
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npm run db:generate
+npm run db:migrate
+npm run db:studio
+```
+
+## Privacy model
+
+- Every generation is owned by a local app user mapped to a Clerk user.
+- Original and result media are returned only through authenticated API routes.
+- Generation lookups verify ownership before reading or deleting media.
+- Uploads are limited to JPG, PNG, and WebP files up to 12 MB and normalized before processing.
+- Deleting an edit soft-deletes its database record and removes its stored media.
+
+## Before deployment
+
+1. Use production Clerk keys and complete the Clerk production-instance setup.
+2. Configure an R2 bucket and scoped object read/write credentials.
+3. Fund the OpenAI project, set `MAGIFY_MOCK_AI=false`, and run a real edit.
+4. Run `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`.
+5. Rotate any credentials that were shared during development.
