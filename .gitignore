@@ -12,6 +12,11 @@
 
 # testing
 /coverage
+/test-results
+/playwright-report
+
+# local development media fallback
+/.local-media
 
 # next.js
 /.next/
