@@ -49,6 +49,8 @@ When R2 credentials are absent, development media is stored under the ignored `.
 
 See [`.env.example`](./.env.example) for the complete list. Never commit `.env.local` or real service credentials.
 
+See [`docs/deployment.md`](./docs/deployment.md) for a copy-ready production environment template, provider setup, migration steps, and the deployment security checklist.
+
 Required for production:
 
 - Clerk publishable and secret keys
