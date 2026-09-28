@@ -16,8 +16,16 @@ export const users = pgTable(
     email: text("email").notNull(),
     name: text("name"),
     imageUrl: text("image_url"),
-    credits: integer("credits").default(0).notNull(),
+    credits: integer("credits").default(2).notNull(),
     freeGenerationsUsed: integer("free_generations_used").default(0).notNull(),
+    subscriptionStatus: text("subscription_status").default("free").notNull(),
+    dodoCustomerId: text("dodo_customer_id"),
+    dodoSubscriptionId: text("dodo_subscription_id"),
+    dodoProductId: text("dodo_product_id"),
+    subscriptionCurrentPeriodEnd: timestamp(
+      "subscription_current_period_end",
+      { withTimezone: true },
+    ),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
@@ -27,7 +35,29 @@ export const users = pgTable(
   },
   (table) => [
     uniqueIndex("users_clerk_user_id_idx").on(table.clerkUserId),
+    uniqueIndex("users_dodo_customer_id_idx").on(table.dodoCustomerId),
+    uniqueIndex("users_dodo_subscription_id_idx").on(
+      table.dodoSubscriptionId,
+    ),
     index("users_email_idx").on(table.email),
+  ],
+);
+
+export const billingEvents = pgTable(
+  "billing_events",
+  {
+    id: text("id").primaryKey(),
+    type: text("type").notNull(),
+    userId: uuid("user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    dodoSubscriptionId: text("dodo_subscription_id"),
+    processedAt: timestamp("processed_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("billing_events_subscription_idx").on(table.dodoSubscriptionId),
   ],
 );
 
@@ -67,7 +97,41 @@ export const generations = pgTable(
   ],
 );
 
+export const creditTransactions = pgTable(
+  "credit_transactions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    generationId: uuid("generation_id").references(() => generations.id, {
+      onDelete: "set null",
+    }),
+    amount: integer("amount").notNull(),
+    kind: text("kind").notNull(),
+    externalEventId: text("external_event_id"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("credit_transactions_user_created_idx").on(
+      table.userId,
+      table.createdAt,
+    ),
+    uniqueIndex("credit_transactions_kind_generation_idx").on(
+      table.kind,
+      table.generationId,
+    ),
+    uniqueIndex("credit_transactions_external_event_idx").on(
+      table.externalEventId,
+    ),
+  ],
+);
+
 export type AppUser = typeof users.$inferSelect;
 export type NewAppUser = typeof users.$inferInsert;
 export type Generation = typeof generations.$inferSelect;
 export type NewGeneration = typeof generations.$inferInsert;
+export type CreditTransaction = typeof creditTransactions.$inferSelect;
+export type BillingEvent = typeof billingEvents.$inferSelect;

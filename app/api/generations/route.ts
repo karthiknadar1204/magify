@@ -4,11 +4,16 @@ import OpenAI from "openai";
 import { ZodError } from "zod";
 
 import {
+  consumeGenerationCredit,
+  refundGenerationCredit,
+} from "@/db/credits";
+import {
   createGeneration,
   listGenerationsForUser,
   markGenerationComplete,
   markGenerationFailed,
   markGenerationProcessing,
+  softDeleteGeneration,
 } from "@/db/generations";
 import { getAuthenticatedAppUser } from "@/lib/auth";
 import { generationInputSchema } from "@/lib/image-presets";
@@ -110,7 +115,18 @@ export async function POST(request: Request) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  if (user.credits <= 0) {
+    return Response.json(
+      {
+        error: "You’re out of image credits. Upgrade to Magnify Pro to keep editing.",
+        code: "credits_exhausted",
+      },
+      { status: 402 },
+    );
+  }
+
   let generationId: string | null = null;
+  let creditReserved = false;
 
   try {
     const formData = await request.formData();
@@ -160,6 +176,28 @@ export async function POST(request: Request) {
       throw error;
     }
 
+    const remainingCredits = await consumeGenerationCredit(
+      user.id,
+      generationId,
+    );
+
+    if (remainingCredits === null) {
+      await Promise.all([
+        softDeleteGeneration(generationId, user.id),
+        deleteMedia(originalKey),
+      ]);
+
+      return Response.json(
+        {
+          error: "You’re out of image credits. Upgrade to Magnify Pro to keep editing.",
+          code: "credits_exhausted",
+        },
+        { status: 402 },
+      );
+    }
+
+    creditReserved = true;
+
     await markGenerationProcessing(generationId);
 
     const resultBuffer = await editImageWithOpenAI(normalized.buffer, input);
@@ -182,17 +220,25 @@ export async function POST(request: Request) {
     });
 
     return Response.json(
-      { generation: serializeGeneration(generation) },
+      {
+        generation: serializeGeneration(generation),
+        remainingCredits,
+      },
       { status: 201 },
     );
   } catch (error) {
     const publicError = getPublicError(error);
 
     if (generationId) {
-      await markGenerationFailed(generationId, {
-        code: publicError.code,
-        message: publicError.message,
-      }).catch(() => undefined);
+      await Promise.all([
+        markGenerationFailed(generationId, {
+          code: publicError.code,
+          message: publicError.message,
+        }).catch(() => undefined),
+        creditReserved
+          ? refundGenerationCredit(user.id, generationId).catch(() => false)
+          : Promise.resolve(false),
+      ]);
     }
 
     return Response.json(
