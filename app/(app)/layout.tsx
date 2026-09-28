@@ -15,6 +15,7 @@ export default async function AppLayout({
   return (
     <div className="min-h-screen">
       <AppHeader
+        key={`${user.id}:${user.credits}:${user.subscriptionStatus}`}
         credits={user.credits}
         subscriptionStatus={user.subscriptionStatus}
       />

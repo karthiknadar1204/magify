@@ -1,9 +1,16 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { Coins, CreditCard, History, Plus } from "lucide-react";
 
 import { Brand } from "@/components/brand";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  CREDITS_UPDATED_EVENT,
+  type CreditsUpdatedDetail,
+} from "@/lib/credit-events";
 import { cn } from "@/lib/utils";
 
 export function AppHeader({
@@ -13,6 +20,22 @@ export function AppHeader({
   credits: number;
   subscriptionStatus: string;
 }) {
+  const [visibleCredits, setVisibleCredits] = useState(credits);
+
+  useEffect(() => {
+    function handleCreditsUpdated(event: Event) {
+      const detail = (event as CustomEvent<CreditsUpdatedDetail>).detail;
+
+      if (Number.isInteger(detail?.credits) && detail.credits >= 0) {
+        setVisibleCredits(detail.credits);
+      }
+    }
+
+    window.addEventListener(CREDITS_UPDATED_EVENT, handleCreditsUpdated);
+    return () =>
+      window.removeEventListener(CREDITS_UPDATED_EVENT, handleCreditsUpdated);
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/8 bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-5 sm:px-8">
@@ -44,9 +67,9 @@ export function AppHeader({
           <Link
             href="/billing"
             className="inline-flex items-center gap-1.5 rounded-full bg-accent/55 px-3 py-1.5 text-xs font-medium text-accent-foreground transition hover:bg-accent"
-            aria-label={`${credits} image credits. Open billing.`}
+            aria-label={`${visibleCredits} image credits. Open billing.`}
           >
-            <Coins className="size-3.5" /> {credits}
+            <Coins className="size-3.5" /> {visibleCredits}
             <span className="hidden sm:inline">
               {subscriptionStatus === "active" ? "credits" : "free credits"}
             </span>

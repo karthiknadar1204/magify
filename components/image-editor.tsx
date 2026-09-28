@@ -21,6 +21,10 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  CREDITS_UPDATED_EVENT,
+  type CreditsUpdatedDetail,
+} from "@/lib/credit-events";
+import {
   aspectRatios,
   modePresets,
   strengths,
@@ -56,6 +60,7 @@ const ratioLabels: Record<AspectRatio, string> = {
 
 type GenerationResponse = {
   generation?: { id: string };
+  remainingCredits?: number;
   error?: string;
   code?: string;
 };
@@ -161,7 +166,17 @@ export function ImageEditor({ credits }: { credits: number }) {
 
       setProgress(100);
       toast.success("Your edit is ready.");
+
+      if (typeof payload.remainingCredits === "number") {
+        window.dispatchEvent(
+          new CustomEvent<CreditsUpdatedDetail>(CREDITS_UPDATED_EVENT, {
+            detail: { credits: payload.remainingCredits },
+          }),
+        );
+      }
+
       router.push(`/result/${payload.generation.id}`);
+      router.refresh();
     } catch (error) {
       setIsSubmitting(false);
       setProgress(0);
